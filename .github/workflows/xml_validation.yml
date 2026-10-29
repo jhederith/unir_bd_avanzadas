@@ -1,6 +1,10 @@
-name: Validación de xml
+name: Validación de XML
+
 on:
   push:
+    branches:
+      - main
+  pull_request:
     branches:
       - main
 
@@ -15,10 +19,9 @@ jobs:
       - name: Validar XML contra XSD
         uses: phpcsstandards/xmllint-validate@v2.0.0
         with:
-          pattern: "xml/*.xml"
-          
-          xsd-file: "xsd/*.xsd"
+          pattern: "xml/resultado.xml"
+          xsd-file: "xsd/esquema_personal.xsd" 
 
       - name: Validación con xmllint
         run: |
-          xmllint --schema xsd/*.xsd xml/*.xml --noout
+          xmllint --schema xsd/esquema_personal.xsd xml/resultado.xml --noout
