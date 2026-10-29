@@ -15,10 +15,10 @@ jobs:
       - name: Validar XML contra XSD
         uses: phpcsstandards/xmllint-validate@v2.0.0
         with:
-          pattern: "ruta/a/tus/archivos/*.xml"
+          pattern: "xml/*.xml"
           
-          xsd-file: "ruta/a/tu/esquema.xsd"
+          xsd-file: "xsd/*.xsd"
 
       - name: Validación con xmllint
         run: |
-          xmllint --schema ruta/a/tu/esquema.xsd ruta/a/tu/archivo.xml --noout
+          xmllint --schema xsd/*.xsd xml/*.xml --noout
