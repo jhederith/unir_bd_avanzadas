@@ -1,0 +1,24 @@
+name: Validación de xml
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  validation:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Validar XML contra XSD
+        uses: phpcsstandards/xmllint-validate@v2.0.0
+        with:
+          pattern: "ruta/a/tus/archivos/*.xml"
+          
+          xsd-file: "ruta/a/tu/esquema.xsd"
+
+      - name: Validación con xmllint
+        run: |
+          xmllint --schema ruta/a/tu/esquema.xsd ruta/a/tu/archivo.xml --noout
