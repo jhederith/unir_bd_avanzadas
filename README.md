@@ -12,7 +12,7 @@ Este repositorio contiene la implementación del **Laboratorio #1: Almacenamient
 
 La consulta combina las tablas `DEPARTMENTS` y `EMPLOYEES` mediante `XMLELEMENT`, `XMLATTRIBUTES`, `XMLFOREST`, `XMLAGG` y `.getClobVal()`. También se incluyen una inserción válida y otra inválida para demostrar el comportamiento de la validación.
 
-El proyecto separa scripts SQL, documentos XML, esquemas XSD y documentación para facilitar la trazabilidad y el mantenimiento, siguiendo buenas prácticas de organización del trabajo.
+El proyecto separa scripts SQL, documentos XML y esquemas XSD para facilitar la trazabilidad y el mantenimiento, siguiendo buenas prácticas de organización del trabajo.
 
 ## Requisitos
 
@@ -27,6 +27,9 @@ El proyecto separa scripts SQL, documentos XML, esquemas XSD y documentación pa
 
 ```text
 .
+├── .github/
+│   └── workflows/
+│       └── xml_validation.yml     # Valida el XML contra el XSD en PR y push a main
 ├── sql/
 │   ├── 01_consulta_xml.sql       # Genera XML desde DEPARTMENTS y EMPLOYEES
 │   ├── 02_registro_esquema.sql   # Registra el XSD en Oracle
@@ -36,11 +39,15 @@ El proyecto separa scripts SQL, documentos XML, esquemas XSD y documentación pa
 ├── xml/
 │   ├── resultado.xml              # Resultado XML de la consulta
 │   └── resultado2.xml             # Archivo reservado para otro resultado
-├── xsd/
-│   └── esquema_personal.xsd       # Esquema de departamentos y empleados
-└── docs/
-    └── memorias.md                # Espacio para la memoria y evidencias
+└── xsd/
+    └── esquema_personal.xsd       # Esquema de departamentos y empleados
 ```
+
+## Validación automática
+
+El workflow `.github/workflows/xml_validation.yml` ejecuta la validación automáticamente cada vez que se abre o actualiza un **pull request hacia `main`**. También se ejecuta después de cada `push` a `main`.
+
+La pipeline comprueba que `xml/resultado.xml` cumple el esquema `xsd/esquema_personal.xsd` utilizando `xmllint`. Si el XML no es válido, la comprobación falla y el pull request no debe integrarse hasta corregir el documento o el esquema.
 
 ## Uso
 
@@ -114,6 +121,10 @@ The SQL/XML query combines `DEPARTMENTS` and `EMPLOYEES` using `XMLELEMENT`, `XM
 - Microsoft Windows as the original reference operating system; students using another operating system may use VirtualBox or another virtual machine.
 - A free web-based XML/XSD validation tool.
 - Privileges to register XML Schemas, create tables, and use an Oracle `DIRECTORY` object.
+
+### Automated validation
+
+The `.github/workflows/xml_validation.yml` pipeline runs whenever a pull request targets `main`, and after every push to `main`. It validates `xml/resultado.xml` against `xsd/esquema_personal.xsd` with `xmllint`; a non-conforming document causes the check to fail.
 
 ### Execution order
 
